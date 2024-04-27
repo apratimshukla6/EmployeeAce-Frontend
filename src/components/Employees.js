@@ -36,11 +36,11 @@ function Employees() {
   }, [data, search]);
 
   const handleSort = (key) => {
-    let direction = 'ascending';
-    if (sortConfig.key === key && sortConfig.direction === 'ascending') {
-      direction = 'descending';
-    }
-    setSortConfig({ key, direction });
+      let direction = 'ascending';
+      if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+          direction = 'descending';
+      }
+      setSortConfig({ key, direction });
   };
 
   const sortedEmployees = useMemo(() => {
@@ -49,17 +49,20 @@ function Employees() {
     // Create a shallow copy of the filteredEmployees array before sorting
     let sortableItems = [...filteredEmployees];
     sortableItems.sort((a, b) => {
-      if (a[sortConfig.key] < b[sortConfig.key]) {
+      // Convert both comparison values to lower case for case-insensitive comparison
+      const valA = (sortConfig.key === 'name' ? a[sortConfig.key].toLowerCase() : a[sortConfig.key]);
+      const valB = (sortConfig.key === 'name' ? b[sortConfig.key].toLowerCase() : b[sortConfig.key]);
+
+      if (valA < valB) {
         return sortConfig.direction === 'ascending' ? -1 : 1;
       }
-      if (a[sortConfig.key] > b[sortConfig.key]) {
+      if (valA > valB) {
         return sortConfig.direction === 'ascending' ? 1 : -1;
       }
       return 0;
     });
     return sortableItems;
   }, [filteredEmployees, sortConfig.key, sortConfig.direction]);
-  
 
   const handleOpen = (employee) => {
     setCurrentEmployee(employee);

@@ -64,6 +64,7 @@ function EmployeeDialog({ open, handleClose, employee }) {
                     variant="outlined"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
+                    disabled={!!employee}
                 />
                 <TextField
                     margin="dense"
